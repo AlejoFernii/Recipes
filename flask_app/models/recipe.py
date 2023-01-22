@@ -99,14 +99,20 @@ class Recipe:
     def validate_recipe(recipe):
         is_valid = True
         if len(recipe['name']) <= 0:
-            flash("Recipe Aust Have A Name.")
+            flash("Recipe Aust Have A Name.", 'recipe')
             is_valid=False
         if len(recipe['description']) <= 0:
-            flash("Recipe Must Have A Description.")
+            flash("Recipe Must Have A Description." , 'recipe')
             is_valid=False
         if len(recipe['instructions']) <= 0:
-            flash("Recipe Must Have A Instructions.")
+            flash("Recipe Must Have A Instructions.", 'recipe')
             is_valid=False
+        if len(recipe['date_made']) <=0:
+            flash("All Fields Required.", 'recipe' )
+            is_valid=False
+        # if recipe['is_under'] == None:
+        #     flash("All Fields Required.", 'recipe' )
+        #     is_valid=False
         return is_valid
         
 

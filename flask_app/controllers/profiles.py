@@ -4,6 +4,8 @@ from flask_app.models import recipe, user
 
 @app.route('/profile/<int:id>')
 def show_profile(id):
+    if 'user_id' not in session:
+        return redirect('/')
 
     data = {'id': id}
     profile = user.User.get_one(data)

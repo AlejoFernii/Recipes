@@ -24,7 +24,7 @@
 
 <body>
 
-    <div class="align-self-start justify-content-between top_nav">
+    <div class="align-self-start justify-content-between top_nav pad10">
         <span class="flex-lg-row-reverse">
             <h1 class="">Welcome {{current_user.first_name}}</h1>
         </span>
@@ -38,6 +38,13 @@
     <div class="main">
         <div class="post" id="post_div">
             <h1 class="text-center align-content-center">Edit Recipe</h1>
+            {% with recipe_messages = get_flashed_messages(category_filter=["recipe"]) %}
+            {% if recipe_messages %}
+            {% for message in recipe_messages %}
+            <p class="flash">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
 
             <form action="/edit/recipe" class="" method="post">
                 <input type="hidden" name="user_id" value="{{ current_user.id }}">
@@ -51,12 +58,14 @@
 
                 <div class="form-control">
                     <label for="description">Description:</label>
-                    <textarea name="description" id="description" cols="50" rows="2">{{ one_recipe.description }}</textarea>
+                    <textarea name="description" id="description" cols="50"
+                        rows="2">{{ one_recipe.description }}</textarea>
                 </div>
 
                 <div class="form-control">
                     <label for="instructions">Instructions:</label>
-                    <textarea name="instructions" id="instructions" cols="100" rows="5"> {{ one_recipe.instructions }}</textarea>
+                    <textarea name="instructions" id="instructions" cols="100"
+                        rows="5"> {{ one_recipe.instructions }}</textarea>
                 </div>
 
                 <div class="form-control">

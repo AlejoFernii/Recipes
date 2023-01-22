@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
 
     <STYLE>
-        body {
-            background-image: url("../static/img/World.jpeg");
+        body{
+            background-image: url("../static/img/fruits.jpg");
         }
 
         .post_div {
@@ -29,7 +29,7 @@
 
 <body>
 
-    <div class="align-self-start justify-content-between top_nav">
+    <div class="align-self-start justify-content-between top_nav pad10">
         <span class="flex-lg-row-reverse">
             <h2 class="text-dark">Welcome {{current_user.first_name}}</h2>
         </span>
@@ -43,6 +43,13 @@
     <div class="main">
         <div class="post" id="post_div">
             <h1 class="text-center align-content-center">Create a Recipe</h1>
+            {% with recipe_messages = get_flashed_messages(category_filter=["recipe"]) %}
+                {% if recipe_messages %}
+                    {% for message in recipe_messages %}
+                        <p class="flash">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
             <form action="/create" class="" method="post">
                 <input type="hidden" name="user_id" value="{{ current_user.id }}">

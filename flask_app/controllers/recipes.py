@@ -14,7 +14,7 @@ def create_page(id):
 def create_recipe():
     data = request.form
     if not recipe.Recipe.validate_recipe(data):
-        return redirect('/home')
+        return redirect(request.referrer)
     recipe.Recipe.save(data)
 
     return redirect('/home')
@@ -33,6 +33,9 @@ def delete_recipe(id):
 
 @app.route('/view/<int:id>')
 def view_one(id):
+    if 'user_id' not in session:
+        return redirect('/')
+
 
     data ={'id':id}
     one_recipe = recipe.Recipe.get_one_with_user(data)
@@ -42,6 +45,8 @@ def view_one(id):
 
 @app.route('/edit/<int:id>')
 def edit_page(id):
+    if 'user_id' not in session:
+        return redirect('/')
 
     data = {'id':id}
     one_recipe = recipe.Recipe.get_one_with_user(data)
@@ -51,19 +56,9 @@ def edit_page(id):
 
 @app.route('/edit/recipe', methods = ['POST'])
 def edit_recipe():
-    # data = request.form
-    # if not recipe.Recipe.validate_recipe(data):
-    #     return redirect(request.referrer)
-    # update = {
-    #     'id':data['id'],
-    #     'user_id':data['user_id'],
-    #     'name':data['name'],
-    #     'description':data['description'],
-    #     'instructions':data['instructions'],
-    #     'date_made':data['date_made'],
-    #     'is_under':data['is_under'],
-    #     'created_at':data['created_at'],
-    # }
+    
+    if not recipe.Recipe.validate_recipe(request.form):
+        return redirect(request.referrer)
 
     recipe.Recipe.update_recipe(request.form)
     recipe_id = request.form['id']
